@@ -8,6 +8,7 @@ project(clapcsound VERSION 0.0.0)
 
 include_directories(
     include/csound
+    /Library/Frameworks/CsoundLib64.framework/Versions/6.0/Headers
 )
 
 # add_subdirectory(include/csound)
@@ -15,10 +16,23 @@ include_directories(
 add_executable(TestingProgram 
     source/main.cpp
 )
-target_sources(TestingProgram
-    PRIVATE
-)
 
 target_compile_definitions(TestingProgram PRIVATE _USE_MATH_DEFINES=1)
 
-target_link_libraries(TestingProgram PRIVATE C:/develop/clapcsound/csoundbinaries/csound64.lib)
+IF(APPLE)
+   #SET(GUI_TYPE MACOSX_BUNDLE)
+   INCLUDE_DIRECTORIES ( /Developer/Headers/FlatCarbon )
+   FIND_LIBRARY(CSOUND_LIBRARY CsoundLib64)
+   
+   MARK_AS_ADVANCED (CSOUND_LIBRARY
+                     )
+   SET(EXTRA_LIBS ${CSOUND_LIBRARY})
+ENDIF (APPLE)
+
+if(WIN32)
+    SET(EXTRA_LIBS C:/develop/clapcsound/csoundbinaries/csound64.lib)
+ENDIF(WIN32)
+
+# target_link_libraries(TestingProgram PRIVATE C:/develop/clapcsound/csoundbinaries/csound64.lib)
+# target_link_libraries(TestingProgram PRIVATE /Library/Frameworks/CsoundLib64.framework/libCsoundLib64.a)
+TARGET_LINK_LIBRARIES( TestingProgram ${EXTRA_LIBS} )
