@@ -33,6 +33,4 @@ if(WIN32)
     SET(EXTRA_LIBS C:/develop/clapcsound/csoundbinaries/csound64.lib)
 ENDIF(WIN32)
 
-# target_link_libraries(TestingProgram PRIVATE C:/develop/clapcsound/csoundbinaries/csound64.lib)
-# target_link_libraries(TestingProgram PRIVATE /Library/Frameworks/CsoundLib64.framework/libCsoundLib64.a)
 TARGET_LINK_LIBRARIES( TestingProgram ${EXTRA_LIBS} )
